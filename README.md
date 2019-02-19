@@ -2,4 +2,4 @@
 
 | Sesión | Contenidos |
 | --- | --- |
-| [Sesión 1](./Sesión 1) | Primeros pasos con LaTeX |
+| [Sesión 1](./s1) | Primeros pasos con LaTeX |
