@@ -1,0 +1,353 @@
+% --------------------------------------------------
+%  TALLER DE INTRODUCCIÓN A LaTeX
+%  https://github.com/mianfg/latex-intro
+%
+%  Sesión 1 -> Presentación
+%
+%  Autor: Miguel Ángel Fernández Gutiérrez, @mianfg
+%  Fecha: 20 febrero, 2019
+% --------------------------------------------------
+
+% Tipo de documento (presentación)
+\documentclass[10pt, xcolor=table]{beamer}
+
+% Cargar el tema
+\usetheme{metropolis}
+
+%  __________
+% |          |
+% | Paquetes |
+% |__________|
+
+% Paquetes de idioma
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla, es-lcroman, es-noquoting]{babel}
+
+% Paquete para código fuente
+\usepackage{listings}
+
+% Paquete de numeración en Beamer
+\usepackage{appendixnumberbeamer}
+
+% Paquete de uso para plantilla
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+% Paquete para controlar espacios
+\usepackage{xspace}
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+
+% Paquetes para matemáticas
+\usepackage{amsmath}    % Paquete básico de matemáticas
+\usepackage{amsthm}     % Teoremas
+\usepackage{mathrsfs}   % Fuente para ciertas letras utilizadas en matemáticas
+
+% Paquetes para fuentes
+\usepackage{newpxtext, newpxmath}   % Fuente similar a Palatino
+\usepackage{FiraSans}               % Fuente sans serif
+\usepackage[T1]{fontenc}
+\usepackage[italic]{mathastext}     % Utiliza la fuente del documento
+                                    % en los entornos matemáticos
+
+%  ________________________
+% |                        |
+% | Configuración del tema |
+% |________________________|
+
+% Configuración básica del tema
+\metroset{
+  % tema oscuro ('dark') o claro ('light'). No tiene efecto al usar la
+  % paleta de colores más adelante
+  background=light,
+  % 'none' para eliminar la diapositiva inicial de cada sección
+  sectionpage=progressbar,
+  % 'progressbar' o 'simple' para añadir una diapositiva inicial a cada subsección
+  subsectionpage=none,
+  % contador de página: 'none', 'counter' o 'fraction'
+  numbering=none,
+  % barra de progreso: 'none', 'head', 'frametitle' o 'foot'
+  progressbar=frametitle,
+  % fondo de los bloques estilo teorema: 'transparent' o 'fill'
+  block=fill,
+}
+
+% Paleta de colores
+\definecolor{accent}{RGB}{151, 186, 88}
+\colorlet{darkaccent}{accent!70!black}
+\definecolor{foreground}{RGB}{0, 0, 0}
+\definecolor{background}{RGB}{255, 255, 255}
+
+% Insertar los colores en el tema
+\setbeamercolor{normal text}{fg=foreground, bg=background}
+\setbeamercolor{alerted text}{fg=darkaccent, bg=background}
+\setbeamercolor{example text}{fg=foreground, bg=background}
+\setbeamercolor{frametitle}{fg=background, bg=accent}
+
+\setbeamercolor{headtitle}{fg=background!70!accent,bg=accent!90!foreground}
+\setbeamercolor{headnav}{fg=background,bg=accent!90!foreground}
+\setbeamercolor{section in head/foot}{fg=background,bg=accent}
+
+\defbeamertemplate*{headline}{miniframes theme no subsection}{
+  % Caja para mostrar título y autor encima de cada diapositiva
+  % Nosotros no 
+  %% \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,
+  %%     leftskip=.3cm,rightskip=.3cm plus1fil]{headtitle}
+  %%   {\usebeamerfont{title in head/foot}\insertshorttitle}
+  %%   \hfill
+  %%   \leavevmode{\usebeamerfont{author in head/foot}\insertshortauthor}
+  %% \end{beamercolorbox}
+  %% \begin{beamercolorbox}[colsep=1.5pt]{upper separation line head}
+  %% \end{beamercolorbox}
+
+  % Caja para mostrar navegación encima de cada diapositiva
+  \begin{beamercolorbox}{headnav}
+    \vskip2pt\insertnavigation{\paperwidth}\vskip2pt
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[colsep=1.5pt]{lower separation line head}
+  \end{beamercolorbox}
+}
+
+%  _________
+% |         |
+% | Ajustes |
+% |_________|
+
+% Fijar tabla a posición
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+%  ________
+% |        |
+% | Título |
+% |________|
+
+\title{Primeros pasos con \LaTeX}
+\subtitle{Taller de introducción a \LaTeX{}\\ \alert{Sesión 1}}
+\date{\today}
+\author{Miguel Ángel (@mianfg)}
+\institute{\url{https://github.com/mianfg/latex-intro}}
+\titlegraphic{\hfill\includegraphics[width=2.5cm]{../assets/mianfg-logo-grey.png}}
+
+%  ___________
+% |           |
+% | Documento |
+% |___________|
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Contenidos}
+	\setbeamertemplate{section in toc}[sections numbered]
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{Qué es \LaTeX{}... y para qué sirve}
+
+\begin{frame}{Qué es \LaTeX{}}
+	
+	\begin{itemize}
+		\item \TeX{} es un programa de ordenador creado por Donald E. Knuth, diseñado para componer texto y fórmulas matemáticas.
+		\item \LaTeX{} es un paquete de macros que permite crear contenidos de alta calidad tipográfica, escrito originalmente por Leslie Lamport.
+		      \begin{itemize}
+		      	\item Emplea \TeX{} como motor de composición.
+		      	\item Enfoque \textbf{WYSIWYM} (\emph{What You See Is What You Mean}), en contraposición con el enfoque \textbf{WYSIWYG} (\emph{What You See Is What You Get}) de plataformas como \emph{LibreOffice} o \emph{Microsoft Office}.
+		      \end{itemize}
+	\end{itemize}
+	
+\end{frame}
+\begin{frame}{Autor, maquetador y compositor}
+	\LaTeX{} representa el papel de un \textbf{maquetador}, usando \TeX{} como su compositor. Un maquetador se dedica a interpretar la información proporcionada.
+	
+	Normalmente, al usar editores WYSIWYG, vemos el resultado final, como con \emph{Word} o \emph{Writer}; este no es el caso de \LaTeX{} en la mayoría de ocasiones.
+	
+	Cuando se usa \LaTeX{}, no podemos ver el aspecto del fichero hasta que es \textbf{compilado}.
+\end{frame}
+
+\begin{frame}{Entonces... ¿para qué quiero \LaTeX{}?}
+	\begin{itemize}
+		\item Crear documentos formales, especialmente en artículos científicos: TFGs y \emph{papers} se realizan en formatos con \LaTeX{}.
+		\item Crear documentos de muy alta calidad.
+		\item Crear documentos con contenido matemático: fórmulas, expresiones...
+		\item Crear documentos consistentes con mucha funcionalidad: bibliografía, referencias, hiperenlaces...
+	\end{itemize}
+\end{frame}
+
+\section{Instalación de \LaTeX{}}
+
+\begin{frame}{Instalando \LaTeX{}}
+	Dependiendo del sistema operativo, instalaremos:
+	\begin{itemize}
+		\item Windows
+		      \begin{itemize}
+		      	\item Usaremos: 
+		      \end{itemize}
+		\item Linux (o distribuciones de Linux)
+		      \begin{itemize}
+		      	\item Instalar los siguientes paquetes (en Ubuntu):
+		      	\item[] \texttt{sudo apt install texlivefull}
+		      	\item[] \texttt{sudo apt install ...}
+		      	\item Para otras distros preguntar.
+		      \end{itemize}
+		      
+		\item MacOS
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[standout]
+	Ahora, familiaricémonos con el entorno
+\end{frame}
+
+\section{Recursos de este taller}
+
+\begin{frame}{Repositorio de GitHub}
+	Podrás encontrar todos los recursos que usaremos en el taller: ejemplos, tutoriales... e incluso estas diapositivas, en el \textbf{repositorio de GitHub} que he creado.
+	\begin{center}
+		\url{https://github.com/mianfg/latex-intro}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Más recursos}
+	Otros enlaces recomendados para aprender o profundizar \LaTeX{}:
+	\begin{itemize}
+		\item \LaTeX{} Project: \url{https://www.latex-project.org}
+		\item Overleaf Learn: \url{https://www.overleaf.com/learn}
+		\item LibreIM (Doble Grado Informática y Matemáticas, UGR): \url{https://libreim.github.io/blog/2015/03/14/latex}
+		\item LaTeX-Tutorial: \url{https://www.latex-tutorial.com}
+		\item TeX StackExchange: \url{https://tex.stackexchange.com}
+		\item Hackr.io: \url{https://hackr.io/tutorials/learn-latex}
+	\end{itemize}
+	
+	
+	
+\end{frame}
+
+\section{Primeros ejemplos: ficheros de entrada \LaTeX{}}
+
+\begin{frame}{Ficheros de entrada \LaTeX{}}
+	Los ficheros de \LaTeX{} son \textbf{archivos de texto plano} que deben ser compilados. Suelen tener la extensión \texttt{.tex}.
+	\vspace{0.5cm}
+	\begin{alertblock}{Importante}
+		Un fichero \LaTeX{} no es lo mismo que el fichero compilado en cualquier formato. Primero modificamos el fichero \texttt{.tex}, y luego lo compilamos, por ejemplo, en un \texttt{.pdf} (además de en otros archivos intermedios).
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{Espacios}
+	\LaTeX{} trata los caracteres ``en blanco'', tal como el espacio o el tabulador, uniformemente como ``espacios''. \emph{Varios espacios en blanco o tabulaciones consecutivos se consideran como un espacio.}
+	
+	Una línea vacía entre dos líneas de texto define el fin de un párrafo. \emph{Varias líneas vacías se interpretan como una sola.}
+	
+	\begin{table}[H]
+		\begin{tabular}{ L{4cm} L{0.5cm} L{4cm} }
+			\alert{Código \LaTeX{}}                                                                                                                             & \hspace{1cm} & \alert{Resultado}                                                                                 \\
+			\cline{1-1}\cline{3-3}
+			\cellcolor[RGB]{203,220,171}\texttt{No importa\ \ dejar uno}\newline\texttt{o varios\ \ \ \ espacios.}\newline[0.5cm] \texttt{Igual con los saltos.} &              & \cellcolor[RGB]{203,220,171}No importa dejar uno o varios espacios.\newline Igual con los saltos. \\
+		\end{tabular}
+	\end{table}
+	
+\end{frame}
+
+\begin{frame}{Caracteres especiales}
+	Estos son caracteres especiales, que se usan en la sintaxis de \LaTeX{}:
+	
+	\begin{table}[H]
+		\begin{tabular}{llllllllll}
+			\texttt{\#} & \texttt{\&} & \texttt{\%} & \texttt{\^{}} & \texttt{\&} & \texttt{\_} & \texttt{\~{}} & \texttt{\{} & \texttt{\}} & \texttt{\textbackslash} \\
+		\end{tabular}
+	\end{table}
+	
+	Por tanto, para usar estos caracteres debemos \emph{escaparlos}:
+	
+	\begin{table}[H]
+		\begin{tabular}{cccccccccc}
+			\texttt{\textbackslash\#} & \texttt{\textbackslash\&} & \texttt{\textbackslash\%} & \cellcolor[RGB]{203,220,171}\texttt{\textbackslash\^{}\{\}} & \texttt{\textbackslash\&} & \texttt{\textbackslash\_} & \cellcolor[RGB]{203,220,171}\texttt{\textbackslash\~{}\{\}} & \texttt{\textbackslash\{} & \texttt{\textbackslash\}} & \cellcolor[RGB]{203,220,171}\texttt{\textbackslash backslash} \\
+			                          &                           &                           &                                                             &                           &                           &                                                             &                           &                           & \scriptsize{\texttt{\textbackslash textbackslash}}            
+		\end{tabular}
+	\end{table}
+	
+	\begin{alertblock}{¡Cuidado!}
+		Para escapar caracteres especiales simplemente insertamos una barra invertida (\texttt{\textbackslash}), \textbf{excepto} en el caso de \texttt{\^{}}, \texttt{\~{}} y el propio \texttt{\textbackslash}.
+	\end{alertblock}
+	
+\end{frame}
+
+\begin{frame}{Órdenes \LaTeX{}}
+	Son \textbf{sensibles a mayúsculas}, adoptan uno de los siguientes formatos:
+	
+	\begin{itemize}
+		\item Comienzan con una barra invertida \(\textbackslash\) y tienen a continuación un nombre que consiste únicamente en letras (terminan con un espacio, un número o cualquier cosa que no sea una letra).
+		\item Una barra invertida \(\textbackslash\) y exactamente una no-letra.
+	\end{itemize}
+	
+	\begin{table}[H]
+		\begin{tabular}{ L{4cm} L{0.5cm} L{4cm} }
+			\alert{Código \LaTeX{}}                                                                                                                                                                                                                               & \hspace{1cm} & \alert{Resultado}                                                                                                                             \\
+			\cline{1-1}\cline{3-3}
+			\cellcolor[RGB]{203,220,171}\texttt{He leído que Knuth divide a la gente que trabaja con \textbackslash TeX\{\} en \textbackslash TeX\{\}nicos y \textbackslash TeX pertos.\textbackslash\textbackslash}\newline\texttt{Hoy es \textbackslash today.} &              & \cellcolor[RGB]{203,220,171}He leído que Knuth divide a la gente que trabaja con \TeX{} en \TeX{}nicos y \TeX pertos.\newline Hoy es \today. \\
+		\end{tabular}
+	\end{table}
+	
+\end{frame}
+
+\begin{frame}{Órdenes \LaTeX{}}
+	\begin{table}[H]
+		\begin{tabular}{ L{4cm} L{0.5cm} L{4cm} }
+			\alert{Código \LaTeX{}}                                                                                                                                                                                                                               & \hspace{1cm} & \alert{Resultado}                                                                                                                             \\
+			\cline{1-1}\cline{3-3}
+			\cellcolor[RGB]{203,220,171}\texttt{He leído que Knuth divide a la gente que trabaja con \textbackslash TeX\{\} en \textbackslash TeX\{\}nicos y \textbackslash TeX pertos.\textbackslash\textbackslash}\newline\texttt{Hoy es \textbackslash today.} &              & \cellcolor[RGB]{203,220,171}He leído que Knuth divide a la gente que trabaja con \TeX{} en \TeX{}nicos y \TeX pertos.\newline Hoy es \today. \\
+		\end{tabular}
+	\end{table}
+	
+	\textbf{Cosas que considerar:}
+	\begin{itemize}
+		\item \LaTeX prescinde del uso del espacio en blanco tras las órdenes. Si quieres conseguir un espacio en blanco tras una orden, pon un \texttt{\{\}} o una orden especial de espaciado tras la orden. Digamos que las llaves impiden a \LaTeX ``comerse'' todo ese espacio.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Órdenes \LaTeX{}}
+	\begin{table}[H]
+		\begin{tabular}{ L{4cm} L{0.5cm} L{4cm} }
+			\alert{Código \LaTeX{}}                                                                                                                                               & \hspace{1cm} & \alert{Resultado}                                                                              \\
+			\cline{1-1}\cline{3-3}
+			\cellcolor[RGB]{203,220,171}\texttt{Este \textbackslash emph\{magnífico\} texto.\textbackslash newline}\newline\texttt{¡Y \textbackslash textbf\{no olvides\} este!} &              & \cellcolor[RGB]{203,220,171}Este \emph{magnífico} texto.\newline¡Y \textbf{no olvides} este! \\
+		\end{tabular}
+	\end{table}
+	
+	\textbf{Cosas que considerar:}
+	\begin{itemize}
+		\item Algunas órdenes requieren o aceptan \textbf{parámetros} entre las llaves \texttt{\{ \}} tras el nombre de la orden.
+		\item Algunas órdenes aceptan \textbf{parámetros opcionales}, que se colocan entre corchetes \texttt{[ ]} tras el nombre de la orden.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Comentarios y el carácter \texttt{\%}}
+	Si queremos insertar un comentario, simplemente colocamos un \texttt{\%} al principio de la línea. El compilador ignorará \emph{toda la línea}.
+	
+	El \texttt{\%} también puede usarse para dividir líneas largas en la entrada donde no se permitan saltos de línea.
+	
+	\begin{table}[H]
+		\begin{tabular}{ L{4cm} L{0.5cm} L{4cm} }
+			\alert{Código \LaTeX{}}                                                                                                                                                                                            & \hspace{1cm} & \alert{Resultado}                                                               \\
+			\cline{1-1}\cline{3-3}
+			\cellcolor[RGB]{203,220,171}\texttt{Este es un \% estúpido}\newline\texttt{\% Mejor->instructivo}\newline\texttt{ejemplo: Excelen\%}\newline\texttt{\ \ \ \ \ \ tísimamente ma\%}\newline\texttt{\ \ \ ravilloso} &              & \cellcolor[RGB]{203,220,171}Este es un ejemplo: excelentísimamente maravilloso \\
+		\end{tabular}
+	\end{table}
+	
+\end{frame}
+
+\vspace*{2cm}
+Esta presentación ha sido publicada con una licencia Reconocimiento-CompartirIgual 4.0 Internacional (CC BY-SA 4.0).
+
+\begin{center}\ccbysa\end{center}
+ 
+\vspace*{2cm}
+\begin{flushright}
+	\includegraphics[width=2cm]{../assets/mianfg-logo-grey.png}
+\end{flushright}
+
+\section*{}
+
+\end{document}
+
